@@ -10,16 +10,6 @@ random_sleep()
     sleep ${SLEEP_TIME}
 }
 
-mysql_cluster_check()
-{
-    val="notok"
-    count=$(mysql -uroot -p${MYSQL_ROOT_PASSWORD} -hgalera-lb -N -e 'show databases;'| wc -l) 
-    if [ "${count}" -ne "0" ]; then
-        val="ok"
-    fi
-    echo "${val}"
-}
-
 /opt/rancher/giddyup service wait scale
 
 GALERA_CONF='/etc/mysql/conf.d/001-galera.cnf'
@@ -46,8 +36,9 @@ if [ "$#" -eq "0" ]; then
     fi
 
     ## Incase this is the initial startup.
-    if [ "${leader}" = "false" ]; then
+    if [ "${leader}" = "false" ] && [ ! -f "/opt/rancher/firstbooted" ]; then
         random_sleep
+        touch /opt/rancher/firstbooted
     fi
 
     set -- mysqld ${new_cluster} "${connect_string}"
