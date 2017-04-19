@@ -58,7 +58,7 @@ RUN echo "deb https://repo.percona.com/apt jessie main" > /etc/apt/sources.list.
 	} > /etc/apt/preferences.d/percona
 
 ENV MARIADB_MAJOR 10.1
-ENV MARIADB_VERSION 10.1.21+maria-1~jessie
+ENV MARIADB_VERSION 10.1.22+maria-1~jessie
 
 RUN echo "deb http://ftp.osuosl.org/pub/mariadb/repo/$MARIADB_MAJOR/debian jessie main" > /etc/apt/sources.list.d/mariadb.list \
 	&& { \
@@ -80,6 +80,7 @@ RUN { \
 		mariadb-server=$MARIADB_VERSION \
 # percona-xtrabackup is installed at the same time so that `mysql-common` is only installed once from just mariadb repos
 		percona-xtrabackup \
+		socat \
 		curl \
 		jq \
 	&& rm -rf /var/lib/apt/lists/* \
