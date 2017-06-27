@@ -79,7 +79,8 @@ RUN { \
 	&& apt-get install -y \
 		mariadb-server=$MARIADB_VERSION \
 # percona-xtrabackup is installed at the same time so that `mysql-common` is only installed once from just mariadb repos
-		percona-xtrabackup \
+		percona-xtrabackup-24 \
+		mariadb-backup-10.2 \
 		socat \
 		curl \
 		jq \
